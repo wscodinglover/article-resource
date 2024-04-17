@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <title>老黄历_择吉老黄历_微黄历</title>
+  <meta name="keywords" content="老黄历网黄历,万年历择吉老黄历,老黄历查询黄道吉日,2022老黄历黄道吉日,中国择吉老黄历,万年历查询日历,正版老黄历网官网,老黄历网,黄历" />
+  <meta name="description" content="择吉老黄历提供日历、24节气、是日命禄、宜忌、彭祖百忌，本日物候等查询" />
+</head>
+<div align="center">
+  <h1>微黄历weihuangli.com</h1>
+  <div id="tip2" style="HEIGHT: 26px;POSITION: absolute; VISIBILITY: hidden;" align="center"></div>
+  <script src="js/show.js"></script>
+  <script src="js/main.js"></script>
+
+  <table style="border:1px solid #669900;" cellpadding="0" cellspacing="1" align="center" width="719" bgcolor="#FFCC99">
+    <form name="CLD">
+      <tr>
+        <td width="434" valign="top">
+          <table border="1" bordercolor="#669900" cellpadding="0" cellspacing="1" bgcolor="#ffff99"
+            style="width:434px;">
+            <tr height="38" bordercolor="#ffff99">
+              <th colSpan="7">查看
+                <SELECT name=SY onchange=changeCld()>
+                  <SCRIPT language=JScript>for (i = 1900; i < 2101; i++) document.write('<option>' + i);</SCRIPT>
+                </SELECT>
+                年
+                <SELECT name=SM onchange=changeCld()>
+                  <SCRIPT language=JScript>for (i = 1; i < 13; i++) document.write('<option>' + i);</SCRIPT>
+                </SELECT>
+                月 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT id=YMBG
+                  style="FONT-FAMILY: 'Arial Black'; FONT SIZE=16">
+              </Th>
+            </tr>
+            <tr height="25">
+              <td width="62" align="center">
+                <font color="red"><b>日</b></font>
+              </td>
+              <td width="62" align="center"><b>一</b></td>
+              <td width="62" align="center"><b>二</b></td>
+              <td width="62" align="center"><b>三</b></td>
+              <td width="62" align="center"><b>四</b></td>
+              <td width="62" align="center"><b>五</b></td>
+              <td width="62" align="center">
+                <font color="red"><b>六</b></font>
+              </td>
+            </tr>
+            <script language="JScript">
+              var gNum
+              for (i = 0; i < 6; i++) {
+                document.write('<tr valign=middle height=60>')
+                for (j = 0; j < 7; j++) {
+                  gNum = i * 7 + j
+                  document.write('<td align="center" class=tablebody1 id="GD' + gNum + '" onClick="mOvr(' + gNum + ');Main(' + gNum + ');MoonRise(' + gNum + ');"><B><font style="font-family:Arial;font-size:18pt;cursor: help;line-height:30pt" TITLE="点击查看右侧日历注解" id="SD' + gNum + '" ')
+                  if (j == 0) document.write(' color=red')
+                  if (j == 6)
+                    if (i % 2 == 1) document.write(' color=red')
+                    else document.write(' color=red')
+                  document.write('> </font></B><br><font style="cursor: help" id="LD' + gNum + '"  style="font-size:9pt"> </font></td>')
+                }
+                document.write('</tr>')
+              }
+            </script>
+            <tr height=90 bordercolor="#FFFF99">
+              <td colSpan=7>
+                <table border="0" cellpadding="0" cellspacing="3" width="100%">
+                  <tr>
+                    <td align="center" style="font-size:12px;height:18px;"><span id=sg3></span></td>
+                  </tr>
+                  <tr>
+                    <td align="center"><span id=tim></span></td>
+                  </tr>
+                  <tr>
+                    <td align="center" style="font-size:12px;height:18px;"><span id=sg4></span></td>
+                  </tr>
+                  <tr>
+                    <td align="center" style="font-size:12px;height:18px;color:#800080"><span id=dayglu1></span></td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr height=30 bordercolor="#ffff99">
+              <td colspan=7 id=GZ></td>
+            </tr>
+            <tr height=30 bordercolor="#ffff99">
+              <td colspan=7>现在时间：<span id=Clock></span>(<span id=tim2></span>时)</td>
+            </tr>
+          </table>
+        </td>
+        <td width="280">
+          <table border="0" cellpadding="1" cellspacing="1">
+            <tr>
+              <td align="center"><span id=sg2></span></td>
+            </tr>
+            <tr height=92>
+              <td align="center" id=rcrltd><span id=rcrl></span>
+                <select disabled id=province language=javascript name=province onChange="return province_onchange()">
+                </select>
+                <select disabled id=city name=city onChange="mychange()">
+                </select>
+              </td>
+            </tr>
+            <tr height=67>
+              <td>
+                <table border="0" cellpadding="0" cellspacing="0" align="center" width=100%>
+                  <tr height=67>
+                    <td width=50% align="right" bgcolor=#000000>
+                      <font color=yellow><span style="line-height: 25px"><span id=sg></span></span></font>
+                      <font color=#e5e5e5><span id=rcrl2></span></font>
+                    </td>
+                    <td bgcolor=#000000>&nbsp;<span id=sg5></span></td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </form>
+  </table>
+  <script>
+    initial();
+    mOvr(7);
+    Main(7, 7);
+    MoonRise(7, 7);
+    window_onload();
+  </script>
+</div>
+<div>
+  <p><strong>有关《择吉皇历》说明</strong></p>
+
+  <p>　　我们现在使用的公历是纯粹的阳历，它只以地球绕太阳运动的规律为依据，完全不考虑月球的变化，月份的设置完全是人为设定的。为了方便对外交往和文化交流，也为了我们生活使用简便，公历现在成了我国通用的历法。</p>
+
+  <p>　　中国古代历法采用阴阳合历，比起其他国家所采用的纯阳历或纯阴历都要精准，这是一门科学必备的条件与精神。</p>
+
+  <p>　　中国古代历法还包括日、月、五星的运动，位置的计算;昏、旦中星和时刻的测定;日、月食的预报等等。就某种程度来说，中国古代的历法就是一种编算天文年历的工作。它包括中国古代天文学的许多重要内容，是古代科学观察和研究的结晶。</p>
+
+  <p>
+    　　宇宙中日、月、星辰的互动，对人可产生什么影响，古今学者都认为，所有的宇宙运动都会不同程度的作用于地球生命，从而在地球生命上打下深深的烙印。在日、月、星的运动中，蕴藏着万物消长的规律，寓含着深奥的物候原理。因此，在研究人与自然的关系中，离不开日月星的运行，而中国古代的历法正是为这种研究，提供了最好的时空背景。
+  </p>
+
+  <p>
+    　　历法上的吉凶之说虽然充满迷信色彩，甚至于荒诞无稽，但它包含我国古代哲学、天文、地理、自然生态等诸多方面丰富的内涵，并蕴藏着人们如何顺应自然的论述。重要的是，我们不能否认其中蕴含的心理因素。迷信附会和不加分析的批判都是不可取的，我们今天以科学态度去深入探究它，对阐明我国古代传统文化应会有所裨益。
+  </p>
+
+  <p>　　本年历包含内容：上下200年公历农历对照，本日星宿详解，日出日落，月出月落，全国各地72小时天气预报，全国各地经纬度，每月星座，生肖分析，每月历史等等。</p>
+</div>
+<div>
+
+  <p><b>工具箱：</b>
+    <a href="https://www.yuncesu.net/" target="_blank">网络测速</a>
+    <a href="https://www.bjtime.net/" target="_blank">北京时间</a>
+    <a href="https://www.nsch.net/" target="_blank">大写数字</a>
+    <a href="https://www.foli123.com/" target="_blank">佛历</a>
+    <a href="https://www.zangli100.com/" target="_blank">藏历</a>
+    <a href="https://www.keduchi.net/" target="_blank">在线刻度尺</a>
+    <a href="https://www.lubanchi.cn/" target="_blank">在线鲁班尺</a>
+    <a href="https://www.dinglanchi.com/" target="_blank">在线丁兰尺</a>
+    <a href="https://www.p314.net/" target="_blank">在线圆周率</a>
+  </p>
+  <p><b>实用类：</b>
+    <a href="https://www.shuzibaike.cn/" target="_blank">数字百科</a>
+    <a href="https://www.chashili.net/" target="_blank">在线查视力</a>
+    <a href="https://www.snsn123.com/" target="_blank">生男生女清宫图</a>
+    <a href="https://www.weihuangli.com/" target="_blank">微黄历</a>
+    <a href="https://www.klysw.com/" target="_blank">快乐养生网</a>
+    <a href="https://www.suoxie123.com/" target="_blank">英文缩写大全</a>
+  </p>
+  <p><b>学习类：</b>
+    <a href="https://www.88138.net/" target="_blank">字帖制作</a>
+    <a href="https://www.quantangshi.cn/" target="_blank">全唐诗网</a>
+    <a href="https://www.sdmz.net/" target="_blank">四大名著</a>
+    <a href="https://www.10why.cn/" target="_blank">十万个为什么</a>
+    <a href="https://www.meiriyiyan.com/" target="_blank">每日一言</a>
+    <a href="https://www.njjzw.net/" target="_blank">脑筋急转弯</a>
+  </p>
+  <p><b>小游戏：</b>
+    <a href="https://www.tetris123.com/" target="_blank">俄罗斯方块</a>
+    <a href="https://www.11212.net/" target="_blank">小熊点亮星星</a>
+    <a href="https://www.38168.net/" target="_blank">汉诺塔</a>
+    <a href="https://www.tuixiangzi.cn/" target="_blank">推箱子游戏</a>
+    <a href="https://www.yibilian.cn/" target="_blank">一笔连游戏</a>
+  </p>
+
+  <p><b>友情连接：</b>
+    <a href="https://www.24time.org/" target="_blank">全球时区</a>
+    <a href="https://www.waihui123.com/" target="_blank">外汇牌价网</a>
+    <a href="https://www.bwqy.net/" target="_blank">百万企业</a>
+    <a href="https://www.5413.net/" target="_blank">民间老偏方</a>
+  </p>
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>[ FC游戏在线玩 ] 超级马里奥 玛丽1 无敌版--经典怀旧游戏</title>
+  <meta name="keywords" content="游戏蜗,拳皇97,超级玛丽,魂斗罗,坦克大战,快打旋风,双截龙,三木童子,街头霸王,NES模拟器" />
+  <meta name="description" content="
+游戏蜗专门提供80-90年代经典游戏，像什么魂斗罗、拳皇、超级玛丽、坦克大战、快打旋风、双截龙、三木童子、冒险岛、街头霸王之类的，都是反复通关了无数遍还玩得乐此不疲的游戏。现在电脑上手机上打开网页gameswo就可以玩了！" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="apple-mobile-web-app-title" content="FC在线游戏">
+  <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+  <meta content="yes" name="apple-mobile-web-app-capable" />
+  <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+  <meta content="telephone=no" name="format-detection" />
+  <link rel="stylesheet" href="./css/bootstrap.css" />
+  <link rel="stylesheet" href="./css/fc.css" />
+  <link rel="stylesheet" href="./css/fc-play.css" />
+  <link rel="stylesheet" href="./css/joystick.css" />
+  <script type="text/javascript">
+    var GameName = './Super Mario Bros.nes';
+  </script>
+</head>
+
+<body>
+  <!-- 框架 -->
+  <div class="gameboy" id="GameBoy">
+    <p class="xiaoben-play-title">超级马里奥 玛丽1 无敌版</p>
+    <div class="screen-area">
+      <div class="display" id="mainCanvas">
+        <canvas id="xben-canvas" width="256" height="240" style="width:100%" />
+      </div>
+    </div>
+    <div class="controls">
+      <div id="left">
+        <div class="nipple_l">
+          <div class="front_l"></div>
+          <div class="back_l"></div>
+        </div>
+      </div>
+      <div class="a-b">
+        <div class="b" id="xbenBtnB">B</div>
+        <div class="a" id="xbenBtnA">A</div>
+      </div>
+    </div>
+    <div class="start-select">
+      <div class="select" id="xbenBtnSelect"></div>
+      <div class="start" id="xbenBtnStart"></div>
+    </div>
+  </div>
+  <!-- 展开/收起 -->
+  <div class="xben-setting">
+    <span><i class="more-setting"></i>
+      <p>收起</p>
+    </span>
+    <ul>
+      <li class="keyboardBtn">按键</li>
+      <li id="fullBtn">全屏</li>
+      <li id="saveBtn">存档</li>
+      <li onclick="stopAudio(1,this)">静音</li>
+      <li onclick="javascript:location.reload()">重启</li>
+    </ul>
+  </div>
+  <!-- 键位 -->
+  <div class="modal fade" id="xbenKeyboardModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">键位修改</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <table class="table table-striped" id="xbenKeyboardTable">
+            <thead>
+              <tr>
+                <th></th>
+                <th>玩家1</th>
+                <th>玩家2</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>上</td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>下</td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>左</td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>右</td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>A</td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>B</td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>连按A</td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>连按B</td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Start</td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Select</td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 存档 -->
+  <div class="modal fade xben-save-modal" id="xbenSaveModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <ul class="list-group"></ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--加载JQ-->
+  <script type="text/javascript" src="./lib/jquery.min.js"></script>
+  <!--加载FC-->
+  <script type="text/javascript" src="./lib/bootstrap.min.js" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="./lib/jsnes.min.js"></script>
+  <script type="text/javascript" src="./lib/nipplejs.min.js"></script>
+  <script type="text/javascript" src="./lib/joystick.js"></script>
+  <script type="text/javascript" src="./js/joystick-index.js"></script>
+  <script type="text/javascript" src="./lib/xben.js"></script>
+  <script type="text/javascript">
+    window.onload = function () {
+      nes_load_url("xben-canvas", GameName);
+    }
+    $(".xben-setting span").click(function () {
+      if ($(this).children("i").hasClass("setting-close")) {
+        $(this).children("i").removeClass("setting-close").css("animation", "settingroate1 600ms 1").css("transform", "rotate(180deg)");;
+        $(".xben-setting").animate({
+          left: "0px"
+        });
+        $(".xben-setting span p").text("收起");
+        return;
+      }
+      $(this).children("i").addClass("setting-close").css("animation", "settingroate2 600ms 1").css("transform", "rotate(0deg)");
+      if ($(document).width() >= 1680) {
+        $(".xben-setting").animate({
+          left: "-120px"
+        });
+      } else {
+        $(".xben-setting").animate({
+          left: "-80px"
+        });
+      }
+      $(".xben-setting span p").text("展开");
+    })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,565 @@
+.gameboy {
+  position: relative;
+  min-width: 340px;
+  width: 36%;
+  border-radius: 20px;
+  padding: 20px;
+  background-color: #c45452;
+  font-family: sans-serif;
+  -webkit-user-select: none;
+  cursor: default;
+  padding-bottom: 60px;
+}
+
+.gameboy .screen-area {
+  position: relative;
+  border-radius: 15px 15px 15px 15px;
+  background-color: #23252d;
+  color: #67879a;
+}
+
+.gameboy .screen-area .display {
+  height: auto;
+  width: 100%;
+  border-radius: 15px;
+}
+
+#xben-canvas {
+  border-radius: 15px;
+}
+
+.gameboy .screen-area .label {
+  position: relative;
+  text-align: center;
+  font-size: 20px;
+  z-index: 5;
+}
+
+.gameboy .screen-area .label .title {
+  display: inline;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.gameboy .screen-area .label .subtitle {
+  display: inline;
+  font-family: "Comic Sans MS";
+  font-weight: bold;
+  font-size: 22px;
+  letter-spacing: -1px;
+}
+
+.gameboy .screen-area .label .subtitle .c,
+.gameboy .screen-area .label .subtitle .o1,
+.gameboy .screen-area .label .subtitle .l,
+.gameboy .screen-area .label .subtitle .o2,
+.gameboy .screen-area .label .subtitle .r {
+  display: inline-block;
+}
+
+.gameboy .screen-area .label .subtitle .c {
+  color: #aa2058;
+}
+
+.gameboy .screen-area .label .subtitle .o1 {
+  color: #605bd9;
+  font-size: 20px;
+}
+
+.gameboy .screen-area .label .subtitle .l {
+  color: #78b930;
+  transform: rotateZ(-10deg);
+}
+
+.gameboy .screen-area .label .subtitle .o2 {
+  color: #b6b524;
+  font-size: 20px;
+}
+
+.gameboy .screen-area .label .subtitle .r {
+  color: #317aaf;
+}
+
+.gameboy .controls {
+  display: flex;
+  justify-content: space-between;
+}
+
+.gameboy .controls .dpad {
+  position: relative;
+  display: inline-block;
+  width: 110px;
+  height: 110px;
+  z-index: 5;
+}
+
+.gameboy .controls .dpad > * {
+  width: 33%;
+  height: 33%;
+  position: absolute;
+  background-color: #565e6a;
+  cursor: pointer;
+}
+
+.gameboy .controls .dpad > * i {
+  position: relative;
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  height: 100%;
+  font-size: 28px;
+  color: #333a4a;
+  text-shadow: 0px -0.5px 0px #aaa;
+}
+
+.gameboy .controls .dpad .up {
+  top: calc(0% + 4px);
+  left: 33%;
+  border-top: 4px solid black;
+  border-left: 4px solid black;
+  border-right: 4px solid black;
+  border-radius: 5px 5px 0px 0px;
+}
+
+.gameboy .controls .dpad .up:active {
+  background: linear-gradient(to top, #565e6a 0%, #333 100%);
+}
+
+.gameboy .controls .dpad .up i {
+  top: -5px;
+}
+
+.gameboy .controls .dpad .right {
+  top: 33%;
+  left: calc(66% - 4px);
+  border-top: 4px solid black;
+  border-bottom: 4px solid black;
+  border-right: 4px solid black;
+  border-radius: 0px 5px 5px 0px;
+  box-shadow: 0px -2px 0px #888 inset;
+}
+
+.gameboy .controls .dpad .right:active {
+  background: linear-gradient(to right, #565e6a 0%, #333 100%);
+}
+
+.gameboy .controls .dpad .right i {
+  top: -5px;
+}
+
+.gameboy .controls .dpad .down {
+  top: calc(66% - 4px);
+  left: 33%;
+  border-left: 4px solid black;
+  border-bottom: 4px solid black;
+  border-right: 4px solid black;
+  border-radius: 0px 0px 5px 5px;
+  box-shadow: 0px -2px 0px #888 inset;
+}
+
+.gameboy .controls .dpad .down:active {
+  background: linear-gradient(to bottom, #565e6a 0%, #333 100%);
+}
+
+.gameboy .controls .dpad .left {
+  top: 33%;
+  left: calc(0% + 4px);
+  border-top: 4px solid black;
+  border-bottom: 4px solid black;
+  border-left: 4px solid black;
+  border-radius: 5px 0px 0px 5px;
+  box-shadow: 0px -2px 0px #888 inset;
+}
+
+.gameboy .controls .dpad .left i {
+  top: -5px;
+}
+
+.gameboy .controls .dpad .left:active {
+  background: linear-gradient(to left, #565e6a 0%, #333 100%);
+}
+
+.gameboy .controls .dpad .middle {
+  top: 33%;
+  left: 33%;
+  z-index: -5;
+}
+
+.gameboy .controls .dpad .middle::after {
+  content: "";
+  position: absolute;
+  top: 20%;
+  left: 20%;
+  display: inline-block;
+  border: 1px solid #6e737a;
+  background: linear-gradient(
+    to bottom,
+    #6d7075 0%,
+    #6d7075 30%,
+    #23272f 70%,
+    #23272f 100%
+  );
+  border-radius: 50%;
+  height: 60%;
+  width: 60%;
+}
+
+.gameboy .controls .dpad .up-down {
+  background-color: #565e6a;
+  border: 4px solid black;
+  border-radius: 5px;
+  width: 20px;
+  height: 60px;
+}
+
+.gameboy .controls .dpad .left-right {
+  background-color: #565e6a;
+  border: 4px solid black;
+  border-radius: 5px;
+  width: 60px;
+  height: 20px;
+}
+
+.gameboy .controls .a-b {
+  position: relative;
+  display: inline-block;
+  width: 120px;
+  height: 90px;
+}
+
+.gameboy .controls .a-b .a,
+.gameboy .controls .a-b .b {
+  position: absolute;
+  display: inline-block;
+  font-size: 22px;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  border-radius: 50%;
+  background-color: #4a5050;
+  box-shadow: -1px 1px 5px black, 0px 0px 5px black inset;
+  text-shadow: 0px -1px 1px #888;
+  color: #f8f2dc;
+  text-align: center;
+  -webkit-user-select: none;
+  cursor: pointer;
+  transition: box-shadow 0.1s ease-out, border 0.1s ease-out,
+    line-height 0.2s ease-out;
+}
+
+.gameboy .controls .a-b .a:active,
+.gameboy .controls .a-b .b:active {
+  box-shadow: -1px 1px 1px black, 0px 0px 5px black inset;
+  border-width: 0px;
+  line-height: 50px;
+}
+
+.gameboy .controls .a-b .a {
+  top: 15px;
+  right: 10px;
+}
+
+.gameboy .controls .a-b .b {
+  top: 35px;
+  left: 0%;
+}
+
+.gameboy .controls .a-b .b {
+  top: 60%;
+  left: -50%;
+}
+
+.gameboy .controls .a-b .a {
+  top: 10%;
+  right: 30%;
+}
+
+.gameboy .start-select {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+}
+
+.gameboy .start-select .select,
+.gameboy .start-select .start {
+  cursor: pointer;
+  display: inline-block;
+  color: #f8f2da;
+  letter-spacing: -1px;
+  width: 60px;
+  height: 60px;
+  font-size: 16px;
+  text-align: center;
+  margin-top: 40px;
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+.gameboy .start-select .select::before,
+.gameboy .start-select .start::before {
+  content: "";
+  display: block;
+  margin: 0 auto;
+  width: 60px;
+  height: 30px;
+  margin-bottom: 5px;
+  border-radius: 10px;
+  background-color: #2c313e;
+}
+
+.gameboy .start-select .select::before {
+  content: "选择";
+  line-height: 30px;
+}
+
+.gameboy .start-select .start.save::before {
+  content: "ä¿å­˜";
+  line-height: 30px;
+  background-color: #2c313e;
+}
+
+.gameboy .start-select .select.keyboard::before {
+  content: "æŒ‰é”®";
+  line-height: 30px;
+  background-color: #2c313e;
+}
+
+.gameboy .start-select .start::before {
+  content: "开始";
+  line-height: 30px;
+}
+
+.gameboy .start-select .select:active::before,
+.gameboy .start-select .start:active::before {
+  background: linear-gradient(to bottom, #0b0a1c 0%, #0b0a1c 50%, #62636c 100%);
+}
+
+.gameboy .xiaoben-play-title {
+  color: white;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.gameboy {
+  margin: 0 auto;
+  margin-top: 10px;
+}
+
+.xben-setting {
+  position: absolute;
+  color: #ffffff;
+  top: 20%;
+  left: 0;
+}
+
+.xben-setting > span {
+  position: absolute;
+  left: 80px;
+  top: 40%;
+  background: orange;
+  height: 90px;
+  width: 30px;
+  text-align: center;
+  /* line-height: 60px; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-direction: column;
+  border-bottom-right-radius: 6px;
+  border-top-right-radius: 6px;
+  user-select: none;
+}
+
+.xben-setting > span > p {
+  margin: 0;
+}
+
+.xben-setting > ul {
+  list-style: none;
+  background: #867a7a;
+  margin: 0;
+  padding: 0;
+}
+
+.xben-setting > ul > li {
+  display: block;
+  width: 80px;
+  height: 80px;
+  background: #867a7a;
+  border: 1px solid #4a4f52;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  line-height: 80px;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.xben-setting > ul > li.active {
+  background: linear-gradient(
+      to top right,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0) calc(50% - 1.5px),
+      rgba(0, 0, 0, 1) 50%,
+      rgba(0, 0, 0, 0) calc(50% + 1.5px),
+      rgba(0, 0, 0, 0) 100%
+    ),
+    linear-gradient(
+      to bottom right,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0) calc(50% - 1.5px),
+      rgba(0, 0, 0, 1) 50%,
+      rgba(0, 0, 0, 0) calc(50% + 1.5px),
+      rgba(0, 0, 0, 0) 100%
+    );
+}
+
+.more-setting {
+  display: block;
+  width: 20px;
+  height: 20px;
+  background: url("../more_setting.png");
+  background-size: 100% 100%;
+  transform: rotate(180deg);
+}
+
+@keyframes settingroate1 {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(180deg);
+  }
+}
+
+@keyframes settingroate2 {
+  from {
+    transform: rotate(180deg);
+  }
+
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .gameboy .screen-area .display {
+    height: auto;
+    width: 100%;
+    border-radius: 3px;
+    margin-bottom: 15px;
+  }
+
+  .xben-key {
+    display: none;
+  }
+
+  .gameboy {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .gameboy {
+    width: 95%;
+  }
+
+  .gameboy .controls {
+    display: flex !important;
+    justify-content: space-between !important;
+  }
+
+  .gameboy .controls .dpad {
+    width: 120px;
+    height: 120px;
+  }
+
+  .gameboy .controls .a-b .a,
+  .gameboy .controls .a-b .b {
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    font-size: 24px;
+  }
+
+  .gameboy .controls .a-b .b {
+    top: 70%;
+    left: -20%;
+  }
+
+  .gameboy .controls .a-b .a {
+    top: -5%;
+    right: 0;
+  }
+
+  .xben-index-img,
+  .xben-index-desc {
+    height: auto;
+    padding: 0;
+    width: 100% !important;
+  }
+
+  .xben-index-desc {
+    font-size: 11px;
+    padding: 5px 30px;
+  }
+
+  .xben-index-img > img {
+    width: 120px;
+    height: 80px;
+    margin: 0 auto;
+  }
+
+  .list-group-item {
+    padding: 0.75rem 0.25rem;
+  }
+
+  .keyboardBtn,
+  #fullBtn {
+    display: none !important;
+  }
+}
+
+@media (min-width: 576px) {
+  .xben-save-modal .modal-dialog {
+    max-width: 400px;
+  }
+}
+
+@media screen and (min-width: 1680px) {
+  .gameboy .screen-area .display {
+    width: 100%;
+    border-radius: 3px;
+    margin-bottom: 15px;
+  }
+
+  .gameboy .controls .dpad {
+    width: 190px;
+    height: 190px;
+  }
+
+  .gameboy .controls .a-b .a,
+  .gameboy .controls .a-b .b {
+    width: 80px;
+    height: 80px;
+    font-size: 40px;
+    line-height: 76px;
+  }
+
+  .gameboy .controls .a-b .b {
+    top: 80%;
+    left: -110%;
+  }
+
+  .gameboy .controls .a-b .a {
+    top: 15px;
+    right: 40%;
+  }
+}

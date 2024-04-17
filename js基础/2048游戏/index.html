@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <title>2048游戏 - 网页在线版</title>
+  <meta name="keywords" content="2048游戏,2048,在线2048游戏,2048益智游戏,2048小游戏" />
+  <meta name="description" content="在线2048游戏，电脑手机都可以玩。合并相同方块，得到2048的方块。" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport"
+    content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1, user-scalable=no, minimal-ui">
+  <link href="./index.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+  <div id="main">
+
+    <div id="rb">
+      <div class="container" id="container">
+        <div class="heading" style="margin-top: 20px;">
+          <h1 class="title">2048</h1>
+          <div class="scores-container">
+            <div class="score-container">0</div>
+            <div class="best-container">0</div>
+          </div>
+        </div>
+
+        <div class="above-game">
+          <p class="game-intro">合并数字到达<strong>2048!</strong> </p>
+          <a class="restart-button">新游戏</a>
+        </div>
+
+        <div class="game-container">
+          <div class="game-message">
+            <p></p>
+            <div class="lower">
+              <a class="keep-playing-button">继续</a>
+              <a class="retry-button">重试</a>
+            </div>
+          </div>
+
+          <div class="grid-container">
+            <div class="grid-row">
+              <div class="grid-cell"></div>
+              <div class="grid-cell"></div>
+              <div class="grid-cell"></div>
+              <div class="grid-cell"></div>
+            </div>
+            <div class="grid-row">
+              <div class="grid-cell"></div>
+              <div class="grid-cell"></div>
+              <div class="grid-cell"></div>
+              <div class="grid-cell"></div>
+            </div>
+            <div class="grid-row">
+              <div class="grid-cell"></div>
+              <div class="grid-cell"></div>
+              <div class="grid-cell"></div>
+              <div class="grid-cell"></div>
+            </div>
+            <div class="grid-row">
+              <div class="grid-cell"></div>
+              <div class="grid-cell"></div>
+              <div class="grid-cell"></div>
+              <div class="grid-cell"></div>
+            </div>
+          </div>
+
+          <div class="tile-container">
+            <div class="tile tile-2 tile-position-3-3 tile-new">
+              <div class="tile-inner">2</div>
+            </div>
+            <div class="tile tile-4 tile-position-4-1 tile-new">
+              <div class="tile-inner">4</div>
+            </div>
+          </div>
+        </div>
+
+        <p class="game-explanation">
+          <strong class="important">如何玩:</strong> 用你的<strong>方向键</strong>
+          移动方块。当两个具有相同数字的方块接触时，它们会<strong>合并为一个！</strong>数字到达2048即为胜利~
+        </p>
+
+      </div><!--container-->
+    </div><!--rb-->
+
+    <hr>
+
+  </div><!--main-->
+
+
+
+  <div class="media" style="position:absolute; left: -9999px;">
+    <audio id="Mp3Me" style="clip-path: polygon(0px 0px,0px 0px,0px 0px,0px 0px);" autoplay="autoplay" autobuffer=""
+      controls="controls">
+      <source src="./mp3/du.mp3">
+    </audio>
+    <audio id="Mp3Me2" style="clip-path: polygon(0px 0px,0px 0px,0px 0px,0px 0px);" autoplay="autoplay" autobuffer=""
+      controls="controls">
+      <source src="./mp3/bo.mp3">
+    </audio>
+    <audio id="Mp3Me3" style="clip-path: polygon(0px 0px,0px 0px,0px 0px,0px 0px);" autoplay="autoplay" autobuffer=""
+      controls="controls">
+      <source src="./mp3/win.mp3">
+    </audio>
+  </div>
+  <script src="./index.js"></script>
+</body>
+
+</html>

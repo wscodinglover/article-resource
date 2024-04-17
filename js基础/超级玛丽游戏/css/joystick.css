@@ -1,0 +1,131 @@
+.front {
+  width: 20px;
+  height: 20px;
+  background-color: #000000 !important;
+}
+
+.back {
+  background-image: url("joy_back.png");
+  background-size: cover;
+}
+
+#left {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+/*å¤´éƒ¨å·¦*/
+
+@keyframes gameswo-anim {
+  to {
+    background-position: 0 400%;
+  }
+}
+@keyframes fade-anim {
+  0% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes fade-mid-anim {
+  0% {
+    opacity: 0.5;
+  }
+  40% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+.gameswo {
+  position: absolute;
+  display: block;
+  left: 15px;
+  left: calc(15px + env(safe-area-inset-left));
+  top: 15px;
+  top: calc(15px + env(safe-area-inset-top));
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  z-index: 100;
+}
+.gameswo .title {
+  display: none;
+}
+.gameswo svg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  margin: 0;
+  padding: 0;
+  box-sizing: content-box;
+  pointer-events: none;
+}
+.mobile .gameswo svg {
+  animation: fade-mid-anim 5s infinite ease-in-out;
+}
+.gameswo .disc {
+  position: absolute;
+  display: block;
+  width: 44px;
+  height: 44px;
+  background-color: #9fc;
+  background-image: linear-gradient(
+    to bottom,
+    #9fc 0%,
+    #9cf 25%,
+    #f9c 50%,
+    #fc9 75%,
+    #9fc 100%
+  );
+  background-size: 100% 400%;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: gameswo-anim 8s infinite linear;
+  opacity: 0;
+  will-change: opacity;
+  transition: opacity 0.2s ease-out;
+}
+.mobile .gameswo .disc {
+  animation: gameswo-anim 8s infinite linear, fade-anim 5s infinite ease-in-out;
+}
+body:not(.mobile) .gameswo:hover .disc {
+  opacity: 1;
+}
+.gameswo:active {
+  margin-top: 1px;
+}
+.gameswo .disc {
+  opacity: 1;
+}
+.mobile .gameswo .disc {
+  animation: gameswo-anim 8s infinite linear;
+}
+.mobile .gameswo svg {
+  animation: none;
+}
+
+/*å¤´éƒ¨å³*/

@@ -1,0 +1,116 @@
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1, user-scalable=0">
+  <title>扫雷游戏在线玩 - Minesweeper</title>
+  <meta name="keywords" content="经典扫雷，扫雷游戏，扫雷技巧，扫雷世界纪录">
+  <meta name="description"
+    content="扫雷是一款大众类的益智小游戏，于1992年发行。游戏目标是在最短的时间内根据点击格子出现的数字找出所有非雷格子，同时避免踩雷，踩到一个雷即全盘皆输。成绩榜实时显示大家的在线扫雷成绩，同时发布到每周排行榜。">
+  <link rel="stylesheet" href="./index.css">
+</head>
+
+<body onload="init();">
+
+  <div class="container">
+    <div style="margin-top:0.8rem;">
+      <a href="javascript:set_level(1)">初级</a>&nbsp;
+      <a href="javascript:set_level(2)">中级</a>&nbsp;
+      <a href="javascript:set_level(3)">高级</a>&nbsp;
+      <a href="javascript:set_level(4)">满屏</a>&nbsp;
+      <a href="javascript:set_level(5)">自定义</a>
+    </div>
+    <div id="custom" style="display:none;margin-top:5">
+      宽度<input id="diywidth" type=number value=40>
+      高度<input id="diyheight" type=number value=24>
+      雷数<input id="diymines" type=number value=199>
+      <input type=button onclick="custom()" value="确定">
+    </div>
+    <table style="margin-top:0.8rem;border-radius:6px;background:#cccccc">
+      <tr>
+        <td style="padding:9px;">
+
+          <table id="p42" class="pad" style="height:34px">
+            <tr>
+              <td width=50%><canvas id="rm" height=23 width=39></canvas></td>
+              <td align=center onmouseup="restart()" style="padding:0 8 0 8"><img id="face">
+              <td width=50% align=right><canvas id="es" height=23 width=39></canvas></td>
+          </table>
+          <canvas id="paf" class="pad" style="margin-top:6px;" width=0 height=0></canvas>
+      <tr>
+        <td align=right>
+    </table>
+  </div>
+
+  <script src="./temp.js"></script>
+
+  </div>
+
+
+
+  <div style="margin: 25px;">
+    <span style="vertical-align:middle">魔法</span><input type=checkbox checked id="automine" onclick="automine()">
+    <br><br>
+    第一次点击不会是雷。格子里的数字表示它周围有几个雷。游戏目标是找出所有雷。“触雷”则输。点击表情重新开始。
+    <b>二选一留到最后，可任选</b>，使用魔法加速扫雷速度。
+    <br><br>
+    <b>电脑：</b>鼠标右键点击原始方块，以小旗标记为雷，再点去除标记。标记的雷数和数字匹配时，点击数字（左右键均可）翻开周围的安全区域。鼠标左键点击无标记方块则直接打开。
+    <a id=setm href="javascript:set_mouse()">设置</a>
+    <div id="_mouse" style="border:solid 1px;display:none;padding:0.5rem;">
+      鼠标起效时间点
+      <br><br>
+      <i>左键</i>
+      <br><br>
+      <input type=radio name="mp1" value="0" onclick="setStorage('mp1',0);">按下时
+      <input type=radio name="mp1" value="1" onclick="setStorage('mp1',1);">弹起时
+      <!--input type=radio name="mp1" value="2" onclick="setStorage('mp1',2);">两次
+  <br-->
+      <br><br><br>
+      <i>右键</i>
+      <br><br>
+      <input type=radio name="mp2" value="0" onclick="setStorage('mp2',0);">按下时
+      <input type=radio name="mp2" value="1" onclick="setStorage('mp2',1);">弹起时
+      <!--input type=radio name="mp2" value="2" onclick="setStorage('mp2',2);">两次
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <small>“两次”：点下和松开在不同的格子上。</small-->
+      <br>
+      <br>
+    </div>
+    <br><br>
+    <b>手机或平板：</b>在触屏上点击方块即标记为雷，再点去除标记。标记的雷数和数字匹配时，点击数字翻开周围的安全区域。长按方块直接打开。（可设置为点击直接打开；或点击三次打开）
+    <a id=sett href="javascript:set_touch()">设置</a>
+    <div id="_touch" style="border:solid 1px;display:none;padding:0.5rem;">
+      <i>触击效果</i>
+      <br><br>
+      <input type=radio name="tpn" value="0" checked onclick="setStorage('tpn',0);morehide(0);">标记
+      <input type=radio name="tpn" value="1" onclick="setStorage('tpn',1);smore(1);">直开
+      <br><br><br>
+      <div id=thint style="display:none;">
+        <i>直开模式下的标记方法</i>
+        <br><br>
+        长按
+      </div>
+
+      <div id=topen style="display:none;">
+        <i>标记模式下的打开方法</i>
+        <br><br>
+        <input type=radio name="opn" value="0" checked onclick="setStorage('opn',0)">长按
+        <input type=radio name="opn" value="1" onclick="setStorage('opn',1)">快点三次
+      </div>
+      <br><br>
+    </div>
+    <br><br>
+    <b>扫雷游戏怎么玩：</b>鼠标左键点击，右键进行标注。再次右键代表分析，注意右键可标注雷和问号。问号代表不确定。游戏左方数字代表雷数，右方数字代表时间。
+    <br><br>
+    <b>温馨提示：</b>抵制不良游戏，拒绝盗版游戏，注意自我保护，谨防受骗上当，适度游戏益脑，沉迷游戏伤身，合理安排时间，享受健康生活。
+    <br><br>
+    安卓手机上连击放大问题：【设置】-【智能辅助】-【无障碍】-【放大手势】-关闭。
+  </div>
+
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<head>
+  <title>在线迷宫小游戏（无限关卡版）</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="Keywords" content="在线工具,在线游戏,迷宫,在线迷宫游戏,迷宫小游戏" />
+  <meta name="Description" content="在线工具,在线游戏,一款采用Javascript开发的在线迷宫小游戏，每一个关卡结束之后，会自动生成下一关的迷宫，你永远也走不玩。" />
+  <style>
+    #warp {
+      width: 1000px;
+      margin: 0px auto;
+      background: #F0EFE2;
+      background-repeat: repeat;
+      padding-top: 5px;
+      padding-bottom: 10px;
+    }
+
+    .center {
+      width: 100%;
+    }
+
+    .center h1 {
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    .center ul {
+      margin-left: 30px;
+    }
+  </style>
+</head>
+
+<body scroll="no">
+  <div id="warp">
+    <div class="center">
+      <h1>迷宫小游戏 | 无限关卡版 </h1>
+      <hr />
+      <br />
+      <div class="stat" style="margin-left: 300px;">
+        <red>
+          steps:
+          <span id="step">0</span> complete:
+          <span id="complete">0</span>
+        </red>
+      </div>
+      <canvas id="canvas" style="background:#eeeeee; margin-left:150px;margin-top: 10px;"></canvas>
+      <script type="text/javascript" src="./index.js"></script>
+      <br />
+    </div>
+
+  </div>
+  <script>_a('a')</script>
+  </div>
+</body>
+
+</html>

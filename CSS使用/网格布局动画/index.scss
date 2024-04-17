@@ -1,0 +1,56 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #282a2e;
+}
+
+.container {
+  width: 400px;
+  height: 400px;
+  margin: 0 auto;
+  margin-top: 50px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 10px;
+  transition: all 0.3s;
+}
+
+@for $i from 1 through 9 {
+  .item:nth-child(#{$i}) {
+    background: hsl($i * 20%, 100%, 75%);
+  }
+  .container:has(.item:nth-child(#{$i}):hover) {
+    $r: floor(($i - 1) / 3 + 1);
+    $c: ($i - 1) % 3 + 1;
+    $arr: 1fr 1fr 1fr;
+    $cols: set-nth($arr, $c, 2fr);
+    $rows: set-nth($arr, $r, 2fr);
+    grid-template-columns: $cols;
+    grid-template-rows: $rows;
+  }
+}
+
+// .container:has(.item:nth-child(1):hover) {
+//   grid-template-columns: 2fr 1fr 1fr;
+//   grid-template-rows: 2fr 1fr 1fr;
+// }
+
+// .container:has(.item:nth-child(2):hover) {
+//   grid-template-columns: 1fr 2fr 1fr;
+//   grid-template-rows: 2fr 1fr 1fr;
+// }
+
+// .container:has(.item:nth-child(3):hover) {
+//   grid-template-columns: 1fr 1fr 2fr;
+//   grid-template-rows: 2fr 1fr 1fr;
+// }
+
+// .container:has(.item:nth-child(4):hover) {
+//   grid-template-columns: 2fr 1fr 1fr;
+//   grid-template-rows: 1fr 2fr 1fr;
+// }

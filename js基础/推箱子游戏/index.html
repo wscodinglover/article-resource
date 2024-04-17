@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=540,user-scalable=no">
+  <title>推箱子小游戏-推箱子在线玩</title>
+  <meta name="keywords" content="推箱子小游戏,推箱子在线玩,仓库番,Sokoban,Sokoban game" />
+  <meta name="description" content="经典的推箱子是来自日本古老老少皆宜的益智游戏,既可开发青少年的智力，又可以防止老年痴呆症，全家一起攻关还可以促进家庭和睦，何乐而不为？" />
+  <link rel="stylesheet" href="./index.css">
+  <script type="text/javascript" src="./index.js"></script>
+</head>
+
+<body>
+  <img id="emptyImage" src="image/empty.png" alt="" />
+  <img id="wallImage" src="image/wall.png" alt="" />
+  <img id="floorImage" src="image/floor.png" alt="" />
+  <img id="targetImage" src="image/target.png" alt="" />
+  <img id="cargoImage" src="image/cargo.png" alt="" />
+  <img id="cargoOnTargetImage" src="image/cargo_on_target.png" alt="" />
+  <img id="keeperImage" src="image/keeper.png" alt="" />
+  <img id="keeperOnTargetImage" src="image/keeper_on_target.png" alt="" />
+
+  <div id="main">
+    <div id="rb" class="game">
+      <h2>推箱子小游戏</h2>
+      <div id="tuixiangzi">
+        <div id="controls" style="margin:3px;">
+          <span style="font:bold 16px Arial; background-color:lightblue; border: 2px solid lightblue;">关卡<span
+              id="currentStage">1</span> </span>
+          &nbsp; &nbsp; <select id="stageSelect"></select>
+          <button id="gotoStage">开始游戏</button>
+          <span></span>
+        </div>
+      </div>
+      <div>
+        <p><b>推箱子怎样玩</b>:把箱子绕过障碍物，推到指定的位置，但是所有的箱子只能推，不能拉，而且一次只能推动一个，。</p>
+        <p><b>温馨提示：</b>抵制不良游戏，拒绝盗版游戏，注意自我保护，谨防受骗上当，适度游戏益脑，沉迷游戏伤身，合理安排时间，享受健康生活。</p>
+        <p></p>
+      </div>
+
+    </div><!--rb-->
+
+  </div><!--main-->
+</body>
+
+</html>

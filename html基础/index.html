@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    :root {
+      --primary: #f2b125;
+      --delete: #a73737;
+    }
+
+    ul {
+      list-style: none;
+      line-height: 2;
+      font-size: 20px;
+    }
+
+    label {
+      padding-left: 1em;
+      color: var(--primary);
+      user-select: none;
+      transition: all .1s;
+    }
+
+    label:hover {
+      --primary: blue;
+    }
+
+    ul:not(:has(input:not(:checked))) {
+      background: #a73737;
+      --delete: #FFF;
+    }
+
+    :checked+label {
+      font-style: italic;
+      text-decoration: line-through;
+      color: var(--delete);
+    }
+
+    .camera-btn {
+      margin-bottom: 10px;
+      color: var(--primary);
+    }
+
+    .camera-view {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .camera video {
+      opacity: 0;
+    }
+
+    canvas {
+      margin: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <ul>
+    <li class="item"><input type="checkbox" id="todo1"><label for="todo1">Todo 1</label></li>
+    <li class="item"><input type="checkbox" id="todo2"><label for="todo2">Todo 2</label></li>
+    <li class="item"><input type="checkbox" id="todo3"><label for="todo3">Todo 3</label></li>
+    <li class="item"><input type="checkbox" id="todo4"><label for="todo4">Todo 4</label></li>
+  </ul>
+
+  <div class="camera">
+    <div class="camera-btn">
+      <input type="button" value="打开摄像头" onclick="openCamera()">
+      <input type="button" value="关闭摄像头和麦克风" onclick="stopBothVideoAndAudio()">
+      <input type="button" value="关闭摄像头" onclick="stopVideoOnly()">
+      <input type="button" value="关闭麦克风" onclick="stopAudioOnly()">
+      <input type="button" value="打开麦克风" onclick="openAudioOnly()">
+      <input type="button" value="视频截图" onclick="captureImage()">
+      <input type="button" value="音频舞动" onclick="dance()">
+
+    </div>
+    <div class="camera-view">
+      <video src="" id="cameraFeed"></video>
+      <!--描绘video截图-->
+      <canvas id="canvas" width="480" height="320"></canvas>
+    </div>
+
+
+
+
+  </div>
+</body>
+<script src="./dance.js"></script>
+<script>
+  const video = document.getElementById('cameraFeed');
+  const canvas = document.getElementById("canvas");
+  const context = canvas.getContext("2d");
+  let streamObj = null;
+
+  //访问用户媒体设备的兼容方法
+  function getUserMedia(constrains) {
+    if (navigator.mediaDevices.getUserMedia) {
+      //最新标准API
+      return navigator.mediaDevices.getUserMedia(constrains);
+    }
+    if (navigator.webkitGetUserMedia) {
+      //webkit内核浏览器
+      return navigator.webkitGetUserMedia(constrains);
+    }
+    if (navigator.mozGetUserMedia) {
+      //Firefox浏览器
+      return navagator.mozGetUserMedia(constrains);
+    }
+    if (navigator.getUserMedia) {
+      //旧版API
+      return navigator.getUserMedia(constrains);
+    }
+  }
+
+  function openCamera() {
+    getUserMedia({
+      audio: true,
+      video: { width: 1280 },
+    }).then(function (stream) {
+      video.style.opacity = 1
+      video.srcObject = stream
+      video.onloadedmetadata = () => {
+        video.play();
+      };
+      streamObj = stream
+
+
+    }).catch((err) => {
+      console.error('Error accessing the camera: ', err);
+    })
+  }
+
+
+  // stop both mic and camera
+  function stopBothVideoAndAudio() {
+    streamObj.getTracks().forEach(function (track) {
+      if (track.readyState == 'live') {
+        track.stop();
+        video.style.opacity = 0
+      }
+    });
+  }
+
+  // stop only camera
+  function stopVideoOnly() {
+    streamObj.getTracks().forEach(function (track) {
+      if (track.readyState == 'live' && track.kind === 'video') {
+        track.stop();
+        video.style.opacity = 0
+      }
+    });
+  }
+
+  // stop only mic
+  function stopAudioOnly() {
+    streamObj.getTracks().forEach(function (track) {
+      if (track.readyState == 'live' && track.kind === 'audio') {
+        track.stop();
+      }
+    });
+  }
+
+  function openAudioOnly() {
+    getUserMedia({
+      audio: true,
+    }).then(function (stream) {
+      streamObj = stream
+    }).catch((err) => {
+      console.error('Error accessing the camera: ', err);
+    })
+  }
+
+  function captureImage() {
+    streamObj.getTracks().forEach(function (track) {
+      if (track.readyState == 'live' && track.kind === 'video') {
+        context.drawImage(video, 0, 0, 480, 320);
+      }
+    });
+  }
+
+  function dance() {
+    streamObj.getTracks().forEach(function (track) {
+      if (track.readyState == 'live' && track.kind === 'audio') {
+        var danceObj = new Dance(streamObj, canvas, {
+          // effect: 'waveform',
+          // accuracy: 256,
+          // width: 800,
+          // height: 200,
+          // waveform: {
+          //   fadeSide: false,
+          //   maxHeight: 200,
+          //   verticalAlign: 'middle',
+          //   horizontalAlign: 'center',
+          //   color: '#2980b9'
+          // }
+          effect: 'waveform', // 当前只有'waveform'这一个效果，哈哈哈
+          accuracy: 128, // 精度,实际表现为波形柱的个数，范围16-16348，必须为2的N次方
+          width: 256, // canvas宽度，会覆盖canvas标签中定义的宽度
+          height: 100, // canvas高度，会覆盖canvas标签中定义的高度
+          waveform: {
+            maxHeight: 80, // 最大波形高度
+            minHeight: 1, // 最小波形高度
+            spacing: 1, // 波形间隔
+            color: '#f00', // 波形颜色，可以传入数组以生成渐变色
+            shadowBlur: 0, // 阴影模糊半径
+            shadowColor: '#f00', // 阴影颜色
+            fadeSide: true, // 渐隐两端
+            horizontalAlign: 'center', // 水平对齐方式，left/center/right
+            verticalAlign: 'middle' // 垂直对齐方式 top/middle/bottom
+          }
+        })
+
+        danceObj.dance()
+      }
+    });
+
+
+  }
+</script>
+
+</html>
