@@ -1,0 +1,27 @@
+大家好，我是梦兽。  
+
+`immer` 是一个 JavaScript 库，用于处理不可变数据的状态更新。不可变数据意味着一旦创建，数据结构就不能被修改。在编写复杂的应用程序时，不可变性可以带来一系列好处，比如更容易追踪数据的改变、更容易实现撤销/重做功能以及更简单的状态管理。
+
+我们在处理一些React状态对象更新的时候，下面的做法是最常见的。
+
+```
+<span data-darkreader-inline-bgcolor=""></span><code data-darkreader-inline-color="" data-darkreader-inline-bgimage="" data-darkreader-inline-bgcolor=""><span>const</span>&nbsp;current&nbsp;=&nbsp;{<br>&nbsp;<span>a</span>:&nbsp;<span data-darkreader-inline-color="">1</span>,<br>&nbsp;<span>b</span>:&nbsp;<span data-darkreader-inline-color="">2</span>,<br>&nbsp;<span>c</span>:&nbsp;<span data-darkreader-inline-color="">3</span>,<br>&nbsp;<span>d</span>:&nbsp;<span data-darkreader-inline-color="">4</span>,<br>}<br><br>setCurrent({<br>&nbsp;...current,<br>&nbsp;<span>d</span>:<span data-darkreader-inline-color="">5</span><br>})<br></code>
+```
+
+`immer` 库使用了一种称为结构共享的技术来实现对象克隆，这种技术可以有效地创建新的不可变状态，同时尽可能地重用旧状态中未修改的部分。
+
+```
+<span data-darkreader-inline-bgcolor=""></span><code data-darkreader-inline-color="" data-darkreader-inline-bgimage="" data-darkreader-inline-bgcolor=""><span>import</span>&nbsp;produce&nbsp;<span>from</span>&nbsp;<span data-darkreader-inline-color="">'immer'</span>;<br><br><span>const</span>&nbsp;current&nbsp;=&nbsp;{<br>&nbsp;<span>a</span>:&nbsp;<span data-darkreader-inline-color="">1</span>,<br>&nbsp;<span>b</span>:&nbsp;<span data-darkreader-inline-color="">2</span>,<br>&nbsp;<span>c</span>:&nbsp;<span data-darkreader-inline-color="">3</span>,<br>&nbsp;<span>d</span>:&nbsp;<span data-darkreader-inline-color="">4</span>,<br>}<br><br><span>const</span>&nbsp;nextState&nbsp;=&nbsp;produce(current,(state)=&gt;{<br>&nbsp;state.d&nbsp;=&nbsp;<span data-darkreader-inline-color="">5</span>;<br>})<br><br><span data-darkreader-inline-color="">console</span>.log(current);&nbsp;<span data-darkreader-inline-color="">//&nbsp;未修改的初始状态</span><br><span data-darkreader-inline-color="">console</span>.log(nextState);&nbsp;<span data-darkreader-inline-color="">//&nbsp;更新后的新状态</span><br></code>
+```
+
+在上面的代码中，我们使用 `produce` 函数来取得状态的草稿版本并进行修改。在 `produce` 函数的第一个参数中，我们传入了我们想要修改的初始状态。第二个参数是一个函数，它接收一个参数 `draftState`，这是初始状态的草稿版本。在这个函数体内，我们可以对 `draftState` 进行修改，好像它是可变的一样。一旦函数执行完成，`produce` 会根据我们对草稿所做的修改生成一个新的不可变状态，并将其作为返回值。
+
+值得注意的是，在使用 `immer` 时，你不需要返回新的状态 —— `immer` 会自动处理这一切。这就是为什么在上面的示例中，对 `draftState` 的修改没有明确的 `return` 语句。
+
+## 结合React
+
+```
+<span data-darkreader-inline-bgcolor=""></span><code data-darkreader-inline-color="" data-darkreader-inline-bgimage="" data-darkreader-inline-bgcolor=""><span>import</span>&nbsp;React,&nbsp;{&nbsp;useReducer&nbsp;}&nbsp;<span>from</span>&nbsp;<span data-darkreader-inline-color="">"react"</span>;<br><span>import</span>&nbsp;produce&nbsp;<span>from</span>&nbsp;<span data-darkreader-inline-color="">"immer"</span>;<br><br><span data-darkreader-inline-color="">//&nbsp;假设我们的组件有一个初始状态</span><br><span>const</span>&nbsp;initialState&nbsp;=&nbsp;{<br>&nbsp;&nbsp;<span>count</span>:&nbsp;<span data-darkreader-inline-color="">0</span>,<br>};<br><br><span data-darkreader-inline-color="">//&nbsp;使用&nbsp;immer&nbsp;创建&nbsp;reducer&nbsp;函数</span><br><span>const</span>&nbsp;reducer&nbsp;=&nbsp;produce(<span>(<span>draft,&nbsp;action</span>)&nbsp;=&gt;</span>&nbsp;{<br>&nbsp;&nbsp;<span>switch</span>&nbsp;(action.type)&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;<span>case</span>&nbsp;<span data-darkreader-inline-color="">"increment"</span>:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;draft.count&nbsp;+=&nbsp;<span data-darkreader-inline-color="">1</span>;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>break</span>;<br>&nbsp;&nbsp;&nbsp;&nbsp;<span data-darkreader-inline-color="">//&nbsp;更多的&nbsp;action&nbsp;处理...</span><br>&nbsp;&nbsp;&nbsp;&nbsp;<span>default</span>:<br>&nbsp;&nbsp;&nbsp;&nbsp;<span data-darkreader-inline-color="">//&nbsp;注意：在这里不需要&nbsp;break，因为我们没有修改草稿状态</span><br>&nbsp;&nbsp;}<br>});<br><br><span data-darkreader-inline-color="">//&nbsp;React&nbsp;函数组件</span><br><span><span>function</span>&nbsp;<span data-darkreader-inline-color="">Counter</span>(<span></span>)&nbsp;</span>{<br>&nbsp;&nbsp;<span>const</span>&nbsp;[state,&nbsp;dispatch]&nbsp;=&nbsp;useReducer(reducer,&nbsp;initialState);<br><br>&nbsp;&nbsp;<span>return</span>&nbsp;(<br>&nbsp;&nbsp;&nbsp;&nbsp;<span><span data-darkreader-inline-color="">&lt;<span>div</span>&gt;</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span data-darkreader-inline-color="">&lt;<span>p</span>&gt;</span>Count:&nbsp;{state.count}<span data-darkreader-inline-color="">&lt;/<span>p</span>&gt;</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span data-darkreader-inline-color="">&lt;<span>button</span>&nbsp;<span data-darkreader-inline-color="">onClick</span>=<span data-darkreader-inline-color="">{()</span>&nbsp;=&gt;</span>&nbsp;dispatch({&nbsp;type:&nbsp;"increment"&nbsp;})}&gt;Increment<span data-darkreader-inline-color="">&lt;/<span>button</span>&gt;</span><br>&nbsp;&nbsp;&nbsp;&nbsp;<span data-darkreader-inline-color="">&lt;/<span>div</span>&gt;</span></span><br>&nbsp;&nbsp;);<br>}<br><br><span>export</span>&nbsp;<span>default</span>&nbsp;Counter;<br></code>
+```
+
+在上面的示例中，我们创建了一个使用 `immer` 的 `reducer` 函数，它处理两种动作：增加计数器和添加一个新的喜好项。在 `reducer` 函数中，我们直接对 `draft` 状态进行修改，而不需要担心会改变原始状态或者进行复杂的深拷贝操作。`useReducer` 钩子使用我们的 `reducer` 函数和初始状态，并返回当前的状态和一个 `dispatch` 函数，我们可以用它来触发状态更新。 在组件中，我们使用按钮点击事件来触发不同的动作，这些动作将被 `reducer` 处理，从而更新状态。由于 `immer` 确保了状态的不可变性，这使得在 React 中使用 `immer` 非常适合，因为不可变状态是 React 优化渲染性能的关键。 结合 React 使用 `immer` 可以让你专注于状态更新的逻辑，而不是状态更新的机制，简化了代码并减少了出错的可能性。
