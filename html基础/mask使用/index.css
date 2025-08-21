@@ -1,0 +1,37 @@
+.container {
+  position: relative;
+  width: 800px;
+  height: 800px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  background: #000;
+  border: 1px solid #000;
+  padding: 20px 0 0 20px;
+}
+
+.container .item {
+  background: #f00;
+  width: 240px;
+  height: 240px;
+}
+
+.pointer {
+  --l: 30px; /* 指针长度 */
+  --t: 3px; /* 指针粗细 */
+  --g: 10px; /* 指针与容器的间隙 */
+  --s: 240px; /* 容器的尺寸*/
+  --x: 0px; /* 容器的x轴偏移*/
+  --y: 0px; /* 容器的y轴偏移*/
+
+  position: absolute;
+  width: calc(var(--s) + var(--g) * 2);
+  height: calc(var(--s) + var(--g) * 2);
+  border: var(--t) solid #fff;
+  left: calc(var(--x) - var(--g));
+  top: calc(var(--y) - var(--g));
+  transition: all 0.2s;
+  /* background: conic-gradient(at 50px 50px, transparent 75%, blue 75% 100%) 0 0 / calc(100% - 50px) calc(100% - 50px) repeat; */
+  mask: conic-gradient(at var(--l) var(--l), transparent 75%, blue 75% 100%) 0 0 /
+    calc(100% - var(--l)) calc(100% - var(--l)) repeat;
+}

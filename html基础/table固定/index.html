@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <style>
+    .table {
+      width: 700px;
+    }
+
+    .table-container {
+      position: relative;
+      overflow: scroll;
+    }
+
+    .table .table-container table {
+      width: max-content;
+    }
+
+    .table table tr {
+      position: relative;
+    }
+
+    .table table td {
+      border-bottom: 1px solid #ebeef5;
+      height: 38px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .table .table-container .fixed {
+      position: sticky;
+      left: 0;
+      background-color: #fff;
+    }
+
+    .table .table-container .fixed::after {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: -1px;
+      width: 30px;
+      transform: translateX(100%);
+      transition: box-shadow 0.3s;
+      content: "";
+      pointer-events: none;
+    }
+
+    .table .table-container .box-shadow::after {
+      box-shadow: rgba(0, 0, 0, 0.12) 10px 0px 8px -8px inset;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="table">
+    <div class="table-container">
+      <table border="0" cellspacing="0" cellpadding="0">
+        <thead>
+          <tr>
+            <td width="150" class="fixed">姓名</td>
+            <td width="150">类别</td>
+            <td width="150">年龄</td>
+            <td width="150">身高</td>
+            <td width="150">体重</td>
+            <td width="150">肤色</td>
+            <td width="150">牙齿</td>
+            <td width="150">健康</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="fixed">张三</td>
+            <td>人</td>
+            <td>12</td>
+            <td>136</td>
+            <td>136</td>
+            <td>黑</td>
+            <td>白</td>
+            <td>良好</td>
+          </tr>
+          <tr>
+            <td class="fixed">张三</td>
+            <td>人</td>
+            <td>12</td>
+            <td>136</td>
+            <td>136</td>
+            <td>黑</td>
+            <td>白</td>
+            <td>良好</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script>
+    window.onload = function () {
+      let doc = document.getElementsByClassName("table-container")[0];
+      let leftFixs = doc.getElementsByClassName("fixed");
+      doc.addEventListener("scroll", function (e) {
+        if (e.target.scrollLeft > 0) {
+          [...leftFixs].forEach((item) => { item.classList.add("box-shadow"); });
+        } else {
+          [...leftFixs].forEach((item) => { item.classList.remove("box-shadow"); });
+        }
+      }, true);
+    }; 
+  </script>
+</body>
+
+</html>

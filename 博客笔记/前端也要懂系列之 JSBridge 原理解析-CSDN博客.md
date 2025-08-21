@@ -1,0 +1,111 @@
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/original.png)
+
+[薛定谔的猫96](https://blog.csdn.net/qq_42415326 "薛定谔的猫96") ![](https://csdnimg.cn/release/blogv2/dist/pc/img/newCurrentTime2.png) 于 2022-05-07 11:14:44 发布
+
+![](https://img-blog.csdnimg.cn/7324ce23a5c9455a96c1e2077f2c008d.png)
+
+移动端盛行时代势必使得混合开发（**Hybrid**）成为热点。
+
+混合开发是指使用多种开发模开发App的一种开发模式，涉及到两大类技术：原生 **Native**、**Web H5。**
+
+原生 **Native** 主要指 iOS（Objective C）、Android（Java），原生开发效率较低，开发完成需要重新打包整个App，发布依赖用户的更新，性能较高功能覆盖率更高；
+
+Web H5主要由HTML、CSS、JavaScript组成，Web可以更好的实现发布更新，跨平台也更加优秀，但性能较低，特性受限。
+
+混合开发按照渲染可分为下类：
+
+-   Web 渲染的混合 App（Codova、NativeScript）
+-   原生渲染的混合 App（ReactNative、Weex）
+-   小程序
+
+其中的原生、Web相互通信都离不开**JSBridge。**
+
+### JSBridge是什么?
+
+JSBridge：以 JavaScript 引擎或 Webview 容器作为媒介，通过协定协议进行通信，实现 Native 端和 Web 端双向通信的一种机制。
+
+![](https://img-blog.csdnimg.cn/d8b9439bba9449348e4066d17bc6d8c5.png)
+
+所谓 `双向通信的通道`:
+
+-   JS 向 Native 发送消息 : 调用相关功能、通知 Native 当前 JS 的相关状态等。
+    
+-   Native 向 JS 发送消息 : 回溯调用结果、消息推送、通知 JS 当前 Native 的状态等。
+    
+
+![](https://img-blog.csdnimg.cn/e78d64d473f646348d91e6ff40f72e7e.png)
+
+JavaScript 是运行在一个单独的 JS Context 中（例如，WebView 的 Webkit 引擎、JSCore）。由于这些 Context 与原生运行环境的天然隔离，我们可以将这种情况与 RPC（Remote Procedure Call，远程过程调用）通信进行类比，将 Native 与 JavaScript 的每次互相调用看做一次 RPC 调用。如此一来我们可以按照通常的 RPC 方式来进行设计和实现。
+
+### Webview 是什么？
+
+WebView 是移动端提供的运行JavaScript的环境，是系统渲染 Web 网页的一个控件，可与页面JavaScript交互，实现混合开发。
+
+简单来说`，WebView` 是手机中内置了一款高性能 `Webkit` 内核浏览器，在 SDK 中封装的一个组件。不过没有提供地址栏和导航栏，只是单纯的展示一个网页界面。
+
+> `WebView` 可以简单理解为页面里的 `iframe` 。原生 `app` 与 `WebView` 的交互可以简单看作是页面与页面内 `iframe` 页面进行的交互。就如页面与页面内的 `iframe` 共用一个 `Window` 一样，原生与 `WebView` 也共用了一套原生的方法。
+
+其中 Android 和 iOS 又有些不同：
+
+-   Android目前是 基于 `Chromium` 内核。
+-   iOS 目前采用的是 `WKWebView`。
+
+WebView 可以对url请求、页面加载、渲染、页面交互进行强大的处理。
+
+![](https://img-blog.csdnimg.cn/1521e5decd004219bd0c62ab174e608d.png)
+
+webview 去加载 url 并不像是 浏览器加载 url 的过程，webview 存在一个初始化的过程。为了提升init 时间，通常做法是 app 启动时初始化一个隐藏的webview等待使用，当用户点击需要加载URL，直接使用这个webview 来加载，从而减少webview init 初始化时间。弊端就是带来了额外的内存开销。
+
+## JSBridge 如何实现？
+
+目前主流的 JSBridge实现中，都是通过拦截 URL 请求来达到 native 端和 webview 端相互通信的效果。
+
+首先，需要在 webview 侧和 native 侧分别注册 bridge，其实就是用一个对象把所有函数储存起：
+
+```javascript
+function registerHandler(handlerName, handler) {
+
+messageHandlers[handlerName] = handler;
+
+}
+```
+
+然后，在 webview 里面注入初始化代码：
+
+        （1）创建一个名为 WVJBCallbacks 的数组，将传入的 callback 参数放到数组内
+
+        （2）创建一个 iframe，设置不可见，设置 src 为 `https://__bridge_loaded__`
+
+        （3）设置定时器移除这个 iframe。
+
+最后，在native 端监听 url 请求：
+
+        （1）拦截了所有的 URL 请求并拿到 url。
+
+        （2）首先判断 `isWebViewJavascriptBridgeURL`，判断这个 url 是不是 webview 的 iframe 触发的，具体可以通过 host 去判断。
+
+        （3）继续判断，如果是 `isBridgeLoadedURL`，那么会执行 `injectJavascriptFile`方法，会向 webview 中再次注入一些逻辑，其中最重要的逻辑就是，在 window 对象上挂载一些全局变量和 `WebViewJavascriptBridge`属性。
+
+        （4）继续判断，如果是 isQueueMessageURL，那么这就是个处理消息的回调，需要执行一些消息处理的方法
+
+### 1\. webview 调用 native 能力
+
+![](https://img-blog.csdnimg.cn/c9d5dc6f82e34df0ba00d14b2a6139ed.png)
+
+1.  native 端注册 JsBridge。
+2.  webview 侧创建 iframe，设置 src 为`__bridge_load__。`
+3.  native 端捕获请求，注入 jsb 初始化代码，在 window 上挂载相关对象和方法。
+4.   webview 侧调用`callHandler`方法，并在`responseCallback`上添加`callbackId: responseCallback`，并修改 iframe 的 src，触发捕获。
+5.   native 收到 message，生成一个`responseCallback`，并执行 native 侧注册好的方法
+6.   native 执行完毕后，通过 webview 执行`_handleMessageFromObjC`方法，取出 callback 函数，并执行。
+
+### 2 . native 调用 webview 能力
+
+native  可以直接调用 webview 注册的 JsBridge 方法，不需要通过触发 iframe 的 src 触发执行：
+
+![](https://img-blog.csdnimg.cn/31f8d7bd4a8445b0899042b5ae0b1a4f.png)
+
+1.  native 侧调用 `callHandler`方法，并在 `responseCallback`上添加 `callbackId: responseCallback。`
+2.  native 侧主动调用 `_handleMessageFromObjC` 方法，在 webview 中执行对应的逻辑。
+3.  webview 侧执行结束后，生成带有 `responseId` 的 message，添加到 `sendMessageQueue`中，并修改 iframe 的 src 为 `__wvjb_queue_message__。`
+4.  native 端拦截到 url 变化，调用 webview 的逻辑获取到 message，拿到 `responseId`，并执行对应的 callback 函数。
